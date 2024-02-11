@@ -17,13 +17,13 @@ jobs:
       - name: Compile Protos
         run: | 
           protoc --go_out=. --go_opt=paths=relative -I. *.proto
-      - name: Push to Submodules Repository
+      - name: Push compiled files to submodules
         uses: git-push-action@v4
-          with:
-            github-token: ${{ secrets.GITHUB_TOKEN }}
-            # Push each submodule directory
-            folder: compiled/go # Update for other languages
-            force: true # Push updates even if no new commits
-            repository: ${{ github.repository }}
-            branch: ${{ github.head_ref }}
-        run-if: steps.compile.outputs == false
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          # Push each submodule directory
+          folder: compiled/go # Update for other languages
+          force: true # Push updates even if no new commits
+          repository: ${{ github.repository }}
+          branch: ${{ github.head_ref }}
+          run-if: steps.compile.outputs == false
