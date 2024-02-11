@@ -1,28 +1,31 @@
-name: Compile Proto and Push to submodules Repository 
+name: Compile Proto files and push to submodules
 
 on:
-  push: 
+  push:
     branches: [ main ]
   workflow_dispatch:
 
-jobs: 
-  compile: 
+jobs:
+  compile:
     runs-on: ubuntu-latest
-    steps: 
+    steps:
       - uses: actions/checkout@v3
-      - name: Install Protoc
+      - name: Install protoc
         run: |
-          sudo apt-get update 
-          sudo apt-get install -f protobuf-compiler libprotobuf-dev
-      - name: Compile Protos
-        run: | 
+          sudo apt-get update
+          sudo apt-get install -y protobuf-compiler libprotobuf-dev
+      - name: Compile to Go
+        run: |
           protoc --go_out=. --go_opt=paths=relative -I. *.proto
+      - name: (Optional) Compile to other languages
+        run: | # Add similar steps for other languages
+          protoc --java_out=. --java_opt=import_path=com.yourcompany.protos -I. *.proto
       - name: Push compiled files to submodules
         uses: git-push-action@v4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           # Push each submodule directory
-          folder: compiled/go # Update for other languages
+          folder: go # Update for other languages
           force: true # Push updates even if no new commits
           repository: ${{ github.repository }}
           branch: ${{ github.head_ref }}
