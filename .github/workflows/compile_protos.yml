@@ -22,7 +22,7 @@ jobs:
           with:
             github-token: ${{ secrets.GITHUB_TOKEN }}
             # Push each submodule directory
-            folder: go # Update for other languages
+            folder: compiled/go # Update for other languages
             force: true # Push updates even if no new commits
             repository: ${{ github.repository }}
             branch: ${{ github.head_ref }}
