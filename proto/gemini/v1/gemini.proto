@@ -1,27 +1,27 @@
 syntax = "proto3";
 
-package gemini;
+package gemini.v1;
 
-service Gemini {
-    rpc GenerateResponse (GetResponseReq) returns (GetResponseRes) {}
+service GeminiService {
+    rpc GenerateResponse (GenerateResponseRequest) returns (GenerateResponseResponse) {}
 }
 
 message ChatSession {
-    repeated Content History = 1;
+    repeated Content history = 1;
 }
 
 message Content {
-    string Role = 1;
-    repeated string Part = 2;
+    string role = 1;
+    repeated string part = 2;
 }
 
-message GetResponseReq {
-    repeated ChatSession ChatHistory = 1;
-    string Prompt = 2;
-    bool History = 3;
+message GenerateResponseRequest {
+    repeated ChatSession chat_history = 1;
+    string prompt = 2;
+    bool history = 3;
 }
 
-message GetResponseRes {
-    repeated ChatSession ChatHistory = 1;
-    string Response = 2;
+message GenerateResponseResponse {
+    repeated ChatSession chat_history = 1;
+    string response = 2;
 }
