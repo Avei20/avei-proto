@@ -1,0 +1,25 @@
+name: generate-proto-using-buf 
+on: pull_request
+jobs: 
+  build: 
+    runs-on: ubuntu-latest 
+    steps: 
+        - uses: actions/checkout@v4
+        - uses: bufbuild/buf-setup-action@v1
+          with: 
+            version: "1.29.0"
+            buf_user: ${{ secrets.BUF_USER }}
+            buf_api_token: ${{ secrets.BUF_TOKEN }}
+        - uses: bufbuild/buf-lint-action@v1
+          with: 
+            input: "proto"
+        - uses: bufbuild/buf-breaking-action@v1
+          with: 
+            against: "https://github.com/{ GITHUB_REPOSITORY }.git#branch=main,ref=HEAD~1,subdir=proto"
+        - uses: bufbuild/buf-push-action@v1
+          with: 
+            input: "proto"
+            buf_token: ${{ secrets.BUF_TOKEN }}
+
+      
+
