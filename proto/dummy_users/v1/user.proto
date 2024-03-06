@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package dummy_users.v1;
+
+service DummyUsersService {
+    rpc GetDummyUser(DummyUsersServiceGetDummyUserRequest) returns (GetDummyUserResponse) {};
+}
+
+// Empty Request Message 
+message DummyUsersServiceGetDummyUserRequest {}
+
+// GetUserResponse Message 
+message GetDummyUserResponse {
+    repeated DummyUser users = 1;
+}
+
+message DummyUser {
+    string name = 1;
+    int32 age = 2;
+}
